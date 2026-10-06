@@ -1,0 +1,114 @@
+{
+  "mode": "offline",
+  "dataset": "synthetic Atlas rollout",
+  "constraints": {
+    "asof": "2026-09-30",
+    "tool_budget": 3,
+    "max_steps": 6
+  },
+  "status": "complete",
+  "executed_tool_calls": 3,
+  "attempted_tool_calls": 4,
+  "events": [
+    {
+      "tool": "load_skill",
+      "skill_id": null,
+      "budget_rejected": false
+    },
+    {
+      "tool": "invoke_skill_fn",
+      "skill_id": "cb_release_evidence",
+      "budget_rejected": false
+    },
+    {
+      "tool": "invoke_skill_fn",
+      "skill_id": "cb_rollout_metrics",
+      "budget_rejected": false
+    },
+    {
+      "tool": "invoke_skill_fn",
+      "skill_id": "cb_release_evidence",
+      "budget_rejected": true
+    }
+  ],
+  "evidence": {
+    "as_of_iso": "2026-09-30",
+    "rows": [
+      {
+        "id": "REL-17",
+        "published_at": "2026-09-25",
+        "text": "Atlas canary starts at 5% traffic. Expand only with failure rate <= 1% and no unresolved blockers."
+      },
+      {
+        "id": "INC-42",
+        "published_at": "2026-09-28",
+        "text": "Release blocker: retry storms under upstream timeout. Fix not yet validated."
+      }
+    ]
+  },
+  "metrics": {
+    "snapshot_date": "2026-09-30",
+    "requests": 10000,
+    "failed_requests": 180,
+    "failure_rate_percent": 1.8
+  },
+  "requests": [
+    {
+      "request_id": "fixture-1",
+      "id_source": "completion.id",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 20,
+        "total_tokens": 120
+      },
+      "cost_usd": null,
+      "accounting_source": "synthetic fixture; not billed"
+    },
+    {
+      "request_id": "fixture-2",
+      "id_source": "completion.id",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 20,
+        "total_tokens": 120
+      },
+      "cost_usd": null,
+      "accounting_source": "synthetic fixture; not billed"
+    },
+    {
+      "request_id": "fixture-3",
+      "id_source": "completion.id",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 20,
+        "total_tokens": 120
+      },
+      "cost_usd": null,
+      "accounting_source": "synthetic fixture; not billed"
+    },
+    {
+      "request_id": "fixture-4",
+      "id_source": "completion.id",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 20,
+        "total_tokens": 120
+      },
+      "cost_usd": null,
+      "accounting_source": "synthetic fixture; not billed"
+    },
+    {
+      "request_id": "fixture-5",
+      "id_source": "completion.id",
+      "usage": {
+        "prompt_tokens": 100,
+        "completion_tokens": 20,
+        "total_tokens": 120
+      },
+      "cost_usd": null,
+      "accounting_source": "synthetic fixture; not billed"
+    }
+  ],
+  "total_cost_usd": null,
+  "cost_limitation": "Only successful returned requests are accounted; use gateway billing for reconciliation."
+}

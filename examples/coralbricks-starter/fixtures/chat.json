@@ -1,0 +1,6 @@
+[
+  {"role":"assistant","content":null,"tool_calls":[{"id":"load-1","type":"function","function":{"name":"load_skill","arguments":"{\"skill_ids\":[\"cb_release_evidence\",\"cb_rollout_metrics\"]}"}}]},
+  {"role":"assistant","content":null,"tool_calls":[{"id":"evidence-1","type":"function","function":{"name":"invoke_skill_fn","arguments":"{\"skill_id\":\"cb_release_evidence\",\"fn\":\"release_evidence\",\"args\":{\"project\":\"atlas\",\"as_of_iso\":\"2026-10-02\"}}"}}]},
+  {"role":"assistant","content":null,"tool_calls":[{"id":"metrics-1","type":"function","function":{"name":"invoke_skill_fn","arguments":"{\"skill_id\":\"cb_rollout_metrics\",\"fn\":\"rollout_metrics\",\"args\":{\"project\":\"atlas\",\"snapshot_date\":\"2026-09-30\"}}"}}]},
+  {"role":"assistant","content":null,"tool_calls":[{"id":"budget-probe","type":"function","function":{"name":"invoke_skill_fn","arguments":"{\"skill_id\":\"cb_release_evidence\",\"fn\":\"release_evidence\",\"args\":{\"project\":\"atlas\",\"as_of_iso\":\"2026-09-29\"}}"}}]}
+]

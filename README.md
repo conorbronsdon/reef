@@ -25,6 +25,10 @@ The root package (`cb-ia`) installs Reef and AlphaCumen together. Polyp has its 
 
 ## Start here
 
+**Want to run Reef on CoralBricks inference?** See the
+[`CoralBricks starter`](examples/coralbricks-starter/) for a constrained research
+workload, credential-free fixtures, preflight and optional live usage/cost smoke.
+
 **Want to build your own domain agent?** → [`reef/`](reef/) — read the [framework write-up](https://coralbricks.ai/blog/write-a-winning-agent-harness), copy [`reef/examples/equities/`](reef/examples/equities/), rewrite four pieces.
 
 **Want state-of-the-art finance answers right now?** → [`alphacumen/`](alphacumen/) — `pip install`, set `CORAL_API_KEY`, ask. Runs against the hosted ~4.5 TB pre-processed finance corpus.

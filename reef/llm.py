@@ -16,6 +16,7 @@ Provider dispatch is by model prefix. The model id looks like
 ``<provider>/<model>`` and the prefix routes the call:
 
 - ``openai/...`` -> OpenAI direct via ``OPENAI_API_KEY`` (or ``LLM_API_KEY`` as a generic fallback)
+- ``coralbricks/...`` -> CoralBricks via ``CORAL_BASE_URL`` / ``CORAL_API_KEY``
 - ``anthropic/...`` -> Anthropic direct via ``ANTHROPIC_API_KEY`` (or ``LLM_API_KEY``)
 - ``aws/...`` -> Bedrock via boto3 + standard AWS creds
 - ``lilac/...`` -> OpenAI-compatible proxy at ``LILAC_BASE_URL``
@@ -65,6 +66,9 @@ from typing import Any, Mapping, Optional, Sequence
 # OpenAI-shape proxy.
 _OPENAI_SHAPE_PROVIDERS: dict[str, tuple[str, str, str]] = {
     # prefix -> (base_url_env, api_key_env, default_base_url)
+    "coralbricks": (
+        "CORAL_BASE_URL", "CORAL_API_KEY", "https://inference.coralbricks.ai/v1"
+    ),
     "openai": ("OPENAI_BASE_URL", "OPENAI_API_KEY", "https://api.openai.com/v1"),
     "lilac": ("LILAC_BASE_URL", "LILAC_API_KEY", "https://api.getlilac.com/v1"),
     "together": ("TOGETHER_BASE_URL", "TOGETHER_API_KEY", "https://api.together.xyz/v1"),
@@ -131,17 +135,21 @@ def _openai_shape_chat(
             "Install with: pip install 'openai>=1.0'"
         ) from exc
 
-    client = OpenAI(base_url=base_url, api_key=api_key, timeout=timeout_s)
     sdk_kwargs = dict(params)
     sdk_kwargs["model"] = model_for_provider
-    completion = client.chat.completions.create(**sdk_kwargs)
+    with OpenAI(base_url=base_url, api_key=api_key, timeout=timeout_s) as client:
+        completion = client.chat.completions.create(**sdk_kwargs)
     # The SDK returns a Pydantic model; coerce to dict in the gateway
     # envelope shape.
     if hasattr(completion, "model_dump"):
         response_dict = completion.model_dump()
     else:  # pragma: no cover -- legacy SDK
         response_dict = dict(completion)
-    return {"model": model_for_provider, "response": response_dict}
+    return {
+        "model": model_for_provider,
+        "response": response_dict,
+        "request_id": getattr(completion, "_request_id", None),
+    }
 
 
 def _anthropic_chat(
@@ -440,6 +448,7 @@ def chat(
     stop: Optional[Any] = None,
     response_format: Optional[Mapping[str, Any]] = None,
     parallel_tool_calls: Optional[bool] = None,
+    extra_body: Optional[Mapping[str, Any]] = None,
     user: Optional[str] = None,
     socket_path: Optional[str] = None,
     timeout_s: float = 60.0,
@@ -481,6 +490,7 @@ def chat(
         ("stop", stop),
         ("response_format", dict(response_format) if response_format is not None else None),
         ("parallel_tool_calls", parallel_tool_calls),
+        ("extra_body", dict(extra_body) if extra_body is not None else None),
         ("user", user),
     ):
         if value is not None:
