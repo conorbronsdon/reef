@@ -7,8 +7,8 @@
 **82.6%** on Vals AI Finance Agent v2 &nbsp;·&nbsp; **90%** on Vals AI v1.1 &nbsp;·&nbsp; **89.3%** on FinanceBench &nbsp;·&nbsp; **$0.13** per question
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](../LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](#)
-[![Stars](https://img.shields.io/github/stars/Coral-Bricks-AI/coral-ai?style=social)](https://github.com/Coral-Bricks-AI/coral-ai)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](#)
+[![Stars](https://img.shields.io/github/stars/Coral-Bricks-AI/reef?style=social)](https://github.com/Coral-Bricks-AI/reef)
 [![Blog: finance-benchmarks](https://img.shields.io/badge/blog-finance--benchmarks-orange)](https://coralbricks.ai/blog/finance-benchmarks)
 [![Blog: retrieval-vs-full-stack](https://img.shields.io/badge/blog-retrieval--vs--full--stack-orange)](https://coralbricks.ai/blog/coral-retrieval-vs-full-stack)
 
@@ -141,8 +141,8 @@ Full experiment, including the per-row failure-mode breakdown and the six retrie
 ## Quick start
 
 ```bash
-git clone https://github.com/Coral-Bricks-AI/coral-ai.git
-cd coral-ai
+git clone https://github.com/Coral-Bricks-AI/reef.git
+cd reef
 pip install -e .
 export CORAL_API_KEY=ak_...
 python -m alphacumen.examples.ask_hosted_alphacumen "What was Apple's FY2024 total revenue?"
@@ -200,7 +200,7 @@ The single-question runner lives in [`examples/`](examples) (start with [`exampl
 
 If AlphaCumen is useful to you — or if you just want to follow along — **star the repo**. It's the single best signal we get that this work is worth doubling down on.
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Coral-Bricks-AI/coral-ai&type=Date)](https://star-history.com/#Coral-Bricks-AI/coral-ai&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Coral-Bricks-AI/reef&type=Date)](https://star-history.com/#Coral-Bricks-AI/reef&Date)
 
 Issues and PRs welcome. We're particularly interested in:
 - New domain instances (legal, medical, scientific) that adapt the swarm pattern outside finance

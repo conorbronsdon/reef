@@ -5,8 +5,8 @@
 > [AlphaCumen](../alphacumen) — a finance agent harness built on Reef — scores **82.6%** on Vals AI Finance Agent v2 (+24.7pp over the top generic-harness frontier model), **90%** on Vals AI v1.1, and **89.3%** on Patronus FinanceBench at **$0.13 / query**.
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](../LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](#)
-[![Stars](https://img.shields.io/github/stars/Coral-Bricks-AI/coral-ai?style=social)](https://github.com/Coral-Bricks-AI/coral-ai)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](#)
+[![Stars](https://img.shields.io/github/stars/Coral-Bricks-AI/reef?style=social)](https://github.com/Coral-Bricks-AI/reef)
 [![Blog](https://img.shields.io/badge/blog-write--a--winning--agent--harness-orange)](https://coralbricks.ai/blog/write-a-winning-agent-harness)
 
 <p align="center">
@@ -20,8 +20,8 @@
 Clone, install, set your LLM provider key, ask a question:
 
 ```bash
-git clone https://github.com/Coral-Bricks-AI/coral-ai.git
-cd coral-ai && pip install -e .
+git clone https://github.com/Coral-Bricks-AI/reef.git
+cd reef && pip install -e .
 export LLM_API_KEY=sk-...
 
 python reef/examples/equities/ask.py "How has NVDA performed over the last year?"
