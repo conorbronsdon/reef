@@ -1,0 +1,37 @@
+name: Reef CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install root package and development tools
+        run: python -m pip install -e '.[dev]'
+      - name: Check baseline syntax and undefined names
+        run: ruff check reef alphacumen
+      - name: Run complete Reef and AlphaCumen suite
+        run: python -m pytest reef/tests alphacumen/tests -ra
+      - name: Build wheel and source distribution
+        run: python -m build
+      - name: Fresh wheel import outside checkout
+        run: |
+          python -m venv /tmp/reef-wheel
+          /tmp/reef-wheel/bin/python -m pip install dist/*.whl
+          cd /tmp
+          /tmp/reef-wheel/bin/python -c "import reef, alphacumen; from reef.react import run_react; from reef.constraints import HarnessConstraints"
