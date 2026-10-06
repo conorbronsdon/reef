@@ -198,9 +198,14 @@ def test_common_error_hints_do_not_echo_secret(status, code, expected):
     assert "test-secret" not in hint
 
 
-def test_live_adapter_uses_coral_env_and_preserves_gateway_usage(monkeypatch):
-    monkeypatch.setenv("CORAL_API_KEY", "test-secret")
-    monkeypatch.setenv("CORAL_BASE_URL", "https://gateway.example/v1")
+@pytest.mark.parametrize("whitespace", ["", " \n"])
+def test_live_adapter_uses_coral_env_and_preserves_gateway_usage(
+    monkeypatch, whitespace
+):
+    monkeypatch.setenv("CORAL_API_KEY", whitespace + "test-secret" + whitespace)
+    monkeypatch.setenv(
+        "CORAL_BASE_URL", whitespace + "https://gateway.example/v1" + whitespace
+    )
     monkeypatch.setenv("CORAL_MODEL", "custom-model")
     monkeypatch.setenv("OPENAI_API_KEY", "wrong-provider")
     captured = []

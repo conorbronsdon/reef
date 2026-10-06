@@ -522,6 +522,11 @@ def chat(
         # distinct keys), but LLM_API_KEY is honored as the generic
         # fallback so single-provider users only set one variable.
         api_key = os.environ.get(api_key_env) or os.environ.get("LLM_API_KEY")
+        if prefix == "coralbricks":
+            # Match the starter's validated/preflight configuration, including
+            # keys and endpoint URLs pasted with surrounding whitespace.
+            base_url = base_url.strip().rstrip("/")
+            api_key = api_key.strip() if api_key else api_key
         if not api_key:
             raise RuntimeError(
                 f"set LLM_API_KEY (or {api_key_env}) — required for {prefix}/ models."
