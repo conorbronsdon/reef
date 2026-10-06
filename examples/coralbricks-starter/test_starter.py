@@ -296,3 +296,20 @@ def test_smoke_rejects_missing_cost():
     ):
         with pytest.raises(ValueError, match="gateway cost"):
             starter.smoke(starter.Config(key="test-secret"))
+
+
+def test_trace_file_failure_has_local_guidance_without_echoing_paths(
+    monkeypatch, capsys
+):
+    def cannot_write(*args, **kwargs):
+        raise FileNotFoundError("test-secret/path.json")
+
+    monkeypatch.setattr(
+        sys, "argv", ["starter.py", "offline", "--trace", "missing/path.json"]
+    )
+    monkeypatch.setattr(Path, "write_text", cannot_write)
+    assert starter.main() == 1
+    output = capsys.readouterr().out
+    assert "Local file operation failed (FileNotFoundError)" in output
+    assert "DNS" not in output
+    assert "test-secret" not in output

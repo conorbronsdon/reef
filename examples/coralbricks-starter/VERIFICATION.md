@@ -41,8 +41,9 @@ setup time remains unmeasured. Dependency installation dominates these runs.
 
 - The timed Python 3.11 and 3.12 runs: **245 passed**, with no skips or xfails,
   across Reef, AlphaCumen and the original 23 parametrized starter cases. A
-  subsequent review fix adds a 24th starter case for whitespace-pasted Coral
-  credentials/endpoints; final suite and CI counts are recorded on the PR.
+  subsequent review fix adds checks for whitespace-pasted Coral credentials/
+  endpoints and local trace-write errors (25 starter cases total); final suite
+  and CI counts are recorded on the PR.
 - Baseline before edits: **217 passed, 4 failed** in Reef/AlphaCumen. The
   failures were an incomplete convenience tool list, two obsolete expectations
   that stripped document prefixes, and an unmocked graph actor-ID lookup.

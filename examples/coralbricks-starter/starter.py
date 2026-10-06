@@ -371,6 +371,11 @@ def main():
         print(answer)
         print(json.dumps(trace, indent=2))
         return 0 if trace["status"] == "complete" else 1
+    except OSError as exc:
+        print(
+            f"Local file operation failed ({type(exc).__name__}): check the trace path and example files."
+        )
+        return 1
     except ValueError as exc:
         print(f"Preflight/run failed: {exc}")
         return 1
