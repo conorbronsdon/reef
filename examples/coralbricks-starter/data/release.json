@@ -1,0 +1,12 @@
+{
+  "project": "atlas",
+  "evidence": [
+    {"id": "REL-17", "published_at": "2026-09-25", "text": "Atlas canary starts at 5% traffic. Expand only with failure rate <= 1% and no unresolved blockers."},
+    {"id": "INC-42", "published_at": "2026-09-28", "text": "Release blocker: retry storms under upstream timeout. Fix not yet validated."},
+    {"id": "REL-18", "published_at": "2026-10-02", "text": "Retry fix validated; rollout approved. This outcome was not known in September."}
+  ],
+  "snapshots": [
+    {"snapshot_date": "2026-09-30", "requests": 10000, "failed_requests": 180},
+    {"snapshot_date": "2026-10-02", "requests": 10000, "failed_requests": 30}
+  ]
+}

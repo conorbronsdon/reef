@@ -7,14 +7,14 @@ We saw this firsthand building a finance research harness steering Kimi K2.6. We
 What you'll find in this repo: the framework itself ([`reef/`](reef/)), the finance harness that came out the other side at **82.6%** on Vals AI Finance v2 and **$0.13 per query** ([`alphacumen/`](alphacumen/)), the autonomous optimization-loop coordinator that drove **+59pp on HotpotQA** across **108 unattended LoRA experiments** ([`polyp/`](polyp/)), and the token-accounting diagnostic that started everything ([`claude-code-token-xray/`](claude-code-token-xray/)) — all Apache 2.0.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](#)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](#)
 [![Stars](https://img.shields.io/github/stars/Coral-Bricks-AI/reef?style=social)](https://github.com/Coral-Bricks-AI/reef)
 
 ---
 
 ## What's in the project
 
-Three independently-installable packages plus a diagnostic. Each has its own README, its own quickstart, and its own story.
+The root package (`cb-ia`) installs Reef and AlphaCumen together. Polyp has its own package; the diagnostic has a separate requirements file.
 
 | Path | What it is | Headline |
 |---|---|---|
@@ -24,6 +24,10 @@ Three independently-installable packages plus a diagnostic. Each has its own REA
 | [`claude-code-token-xray/`](claude-code-token-xray/) | **The diagnostic that started the company.** Breaks your `~/.claude` logs into tokens, time, and cost. | ~29M unique tokens billed as **4.35B (~150×)** — **84% of the bill is input**. Nothing leaves your machine. |
 
 ## Start here
+
+**Want to run Reef on CoralBricks inference?** See the
+[`CoralBricks starter`](examples/coralbricks-starter/) for a constrained research
+workload, credential-free fixtures, preflight and optional live usage/cost smoke.
 
 **Want to build your own domain agent?** → [`reef/`](reef/) — read the [framework write-up](https://coralbricks.ai/blog/write-a-winning-agent-harness), copy [`reef/examples/equities/`](reef/examples/equities/), rewrite four pieces.
 
@@ -67,7 +71,7 @@ reef/                          # this repo
 └── claude-code-token-xray/    # the diagnostic that started it all
 ```
 
-Each package owns its own `pyproject.toml`, `README.md`, and tests. Install only what you need.
+Install Reef and AlphaCumen from the root `pyproject.toml` with `python -m pip install -e .`. Polyp is installed from `polyp/`; the token diagnostic uses its requirements file.
 
 ## License
 

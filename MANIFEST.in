@@ -1,0 +1,2 @@
+recursive-include examples/coralbricks-starter *.py *.md *.json
+include examples/coralbricks-starter/.env.example

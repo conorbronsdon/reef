@@ -227,8 +227,9 @@ def test_vector_scraped_articles_schema_advertises_filters() -> None:
 @pytest.mark.parametrize(
     "ref, expected_index, expected_id",
     [
-        ("sec:0001045810-26-000024:5.02", SEC_FILINGS_INDEX, "0001045810-26-000024:5.02"),
-        ("art:abc123", SCRAPED_ARTICLES_INDEX, "abc123"),
+        ("sec:0001045810-26-000024:5.02", SEC_FILINGS_INDEX, "sec:0001045810-26-000024:5.02"),
+        ("art:abc123", SCRAPED_ARTICLES_INDEX, "art:abc123"),
+        ("scraped:abc123", SCRAPED_ARTICLES_INDEX, "scraped:abc123"),
         ("plain_id", GDELT_EVENTS_INDEX, "plain_id"),
         ("unknown_prefix:xyz", GDELT_EVENTS_INDEX, "unknown_prefix:xyz"),
     ],
@@ -316,20 +317,32 @@ def test_query_graph_dispatches_to_sql_against_graph_index() -> None:
 
 def test_multihop_graph_splits_seeds_on_comma() -> None:
     captured: dict[str, Any] = {}
+    lookups: list[str] = []
+
+    def fake_sql(**kwargs: Any) -> dict[str, Any]:
+        query = kwargs["query"]
+        lookups.append(query)
+        for ticker, actor_id in (("AAPL", 101), ("NVDA", 202), ("GOOG", 303)):
+            if f"ticker ILIKE '%{ticker}%'" in query:
+                return {"rows": [{"id": actor_id}]}
+        return {"rows": []}
 
     def fake_multihop(**kwargs: Any) -> dict[str, Any]:
         captured.update(kwargs)
         return {"nodes": [], "edges": [], "truncated": False}
 
-    with patch("alphacumen.tools.cb_tools.multihop", side_effect=fake_multihop):
-        ac_tools.MULTIHOP_GRAPH.fn(
+    with patch("alphacumen.tools.cb_tools.multihop", side_effect=fake_multihop), \
+         patch("alphacumen.tools.cb_tools.sql", side_effect=fake_sql):
+        out = ac_tools.MULTIHOP_GRAPH.fn(
             seed="AAPL,NVDA, GOOG",
             hops=3,
             predicate_filter=["mentions_org"],
         )
 
     assert captured["index"] == GRAPH_INDEX
-    assert captured["start_ids"] == ["AAPL", "NVDA", "GOOG"]
+    assert captured["start_ids"] == ["101", "202", "303"]
+    assert len(lookups) == 3
+    assert out["_resolved_seeds"] == {"AAPL": "101", "NVDA": "202", "GOOG": "303"}
     assert captured["hops"] == 3
     assert captured["predicate_filter"] == ["mentions_org"]
 

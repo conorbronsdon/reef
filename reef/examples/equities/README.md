@@ -9,8 +9,8 @@ If you've read the [Reef write-up](https://coralbricks.ai/blog/write-a-winning-a
 ## Run it
 
 ```bash
-git clone https://github.com/Coral-Bricks-AI/coral-ai.git
-cd coral-ai
+git clone https://github.com/Coral-Bricks-AI/reef.git
+cd reef
 pip install -e .
 export LLM_API_KEY=sk-...
 
