@@ -21,7 +21,7 @@ from reef.skills_loader import load_skills, render_index, render_loaded
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_URL = "https://inference.coralbricks.ai/v1"
-DEFAULT_MODEL = "glm-5.3-flash-fast"
+DEFAULT_MODEL = "deepseek-v4.1-flash-fast"
 QUESTION = "Should we expand the Atlas canary as of the cutoff? Cite blockers and the failure rate."
 SKILL_IDS = ("cb_release_evidence", "cb_rollout_metrics")
 

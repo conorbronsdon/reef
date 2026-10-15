@@ -8,12 +8,11 @@ is September 30. An October fix must not influence the September decision.
 
 Prerequisites: Git, Python 3.11 or 3.12, and internet access for installation.
 Start at the repository root. The distribution is called `cb-ia`; its import
-names are `reef` and `alphacumen`. These commands use this fork:
+names are `reef` and `alphacumen`. These commands use this fork's default branch:
 
 ```bash
 git clone https://github.com/conorbronsdon/reef.git
 cd reef
-git switch feat/coralbricks-starter  # until this PR is merged into the fork
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[dev]'
@@ -44,7 +43,7 @@ credits at [Credits](https://www.coralbricks.ai/credits). Export configuration:
 ```bash
 export CORAL_API_KEY='your-real-key'
 export CORAL_BASE_URL='https://inference.coralbricks.ai/v1'
-export CORAL_MODEL='glm-5.3-flash-fast'
+export CORAL_MODEL='deepseek-v4.1-flash-fast'
 python examples/coralbricks-starter/starter.py preflight
 python examples/coralbricks-starter/starter.py smoke
 python examples/coralbricks-starter/starter.py live --trace coral-demo.json
@@ -53,7 +52,7 @@ python examples/coralbricks-starter/starter.py live --trace coral-demo.json
 ```powershell
 $env:CORAL_API_KEY = 'your-real-key'
 $env:CORAL_BASE_URL = 'https://inference.coralbricks.ai/v1'
-$env:CORAL_MODEL = 'glm-5.3-flash-fast'
+$env:CORAL_MODEL = 'deepseek-v4.1-flash-fast'
 ```
 
 `.env.example` is a reference, not an automatically loaded secrets file.
@@ -86,10 +85,13 @@ mean the expected evidence or final response was not obtained.
 | 429 rate limit | Wait and retry with backoff; distinguish rate limit from insufficient credits. |
 | 502 / 503 / 504, connection or TLS failure | Check service availability and retry a smaller request. Do not disable TLS verification. |
 
-The [API reference](https://www.coralbricks.ai/docs) is the source for current
-models, account limits, credits and billed cost. The October 6 catalog lists
-GLM 5.3/Flash and DeepSeek V4.1 Flash; older `-fp4` aliases remain supported.
-Do not assume Kimi is available: choose it only if the key's catalog lists it.
+The [model catalog](https://www.coralbricks.ai/models) and
+[API reference](https://www.coralbricks.ai/docs#models) describe current models
+and account limits. Checked October 14, 2026: the API reference marks GLM 5.3
+Flash retired as of October 7 and recommends `deepseek-v4.1-flash-fast` in its
+place. That is the starter's default and the example above. Confirm it appears
+in your key's authenticated `/v1/models` response before inference; availability
+depends on the account and can change. A retired ID returns `404 model_retired`.
 Cached reads are documented at $0; retained cache writes can be billed
 separately. This example reports the returned buckets rather than estimating
 charges from a static price table. Context limits are model/account dependent;
@@ -145,10 +147,12 @@ outside this total. Reconcile actual spending against gateway billing.
 
 ## Verification and limitations
 
-See [VERIFICATION.md](VERIFICATION.md) for the clean-environment protocol,
-observed timings, failures and remediation backlog. CI runs the offline demo
-and tests on Python 3.11/3.12 without secrets; network connections are forbidden
-inside the starter tests, including mocked SDK tests.
+See [VERIFICATION.md](VERIFICATION.md) for the historical October 6 setup
+observations, clean-environment protocol, failures and remediation backlog.
+Those observations predate the model replacement and do not validate its live
+behavior. CI runs the offline demo and tests on Python 3.11/3.12 without secrets;
+network connections are forbidden inside the starter tests, including mocked
+SDK tests.
 
 This is a single-process CLI example. Its scoped chat wrapper uses Python's
 `unittest.mock.patch` to record accounting or replay fixtures; it is unsuitable
